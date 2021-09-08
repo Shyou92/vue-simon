@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  props: ['sound'],
+  props: ['sound', 'mutableIsStarted'],
   data() {
     return {
       isActive: false,
@@ -12,12 +12,13 @@ export default {
   },
   methods: {
     click() {
-      if(this.isStarted === false) {
-        return;
+      if (!this.mutableIsStarted) {
+        return
+      } else {
+        this.sound.play();
+        this.isActive = !this.isActive;
+        setTimeout(() => (this.isActive = false)), 2000;
       }
-      this.sound.play();
-      this.isActive = !this.isActive;
-      setTimeout(() => (this.isActive = false)), 2000;
     },
   },
 };

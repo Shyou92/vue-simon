@@ -2,7 +2,9 @@
   <div class="playfield">
     <h2 class="playfield__header">Simon Says</h2>
     <div class="container">
-      <Board @sounds="sounds" />
+      <Board @sounds="sounds" 
+        :mutableIsStarted="mutableIsStarted"
+      />
       <DashBoard @gameIsStarted="audio"
       />
     </div>
@@ -14,11 +16,16 @@ import Board from './Board.vue';
 import DashBoard from './DashBoard.vue';
 
 export default {
-  props: ['isStarted'],
+  props: {
+    isStarted: {
+      default: false,
+      type: Boolean,
+    }
+  },
   data() {
     return {
       sounds: [],
-      mutableIsStarted: this.isStarted,
+      mutableIsStarted: this.isStarted || false,
     }
   },
   components: {
@@ -28,7 +35,9 @@ export default {
   methods: {
     audio(isStarted) {
       this.mutableIsStarted = isStarted;
-      console.log(this.mutableIsStarted);
+    },
+    randomizeNumbers() {
+      return Math.floor((Math.random() * sounds.length) + 1);
     }
   }
 };

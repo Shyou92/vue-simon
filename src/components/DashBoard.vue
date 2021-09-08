@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <h3 class="dashboard__header">Round: 0</h3>
+    <h3 class="dashboard__header">Round: {{round}}</h3>
     <button class="dashboard__start" @click='startGame()'>Start</button>
     <ul class="dashboard__list">
       Game options:
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       isStarted: false,
+      round: 0,
     }
   },
   methods: {
@@ -36,7 +37,6 @@ export default {
       let startGame;
       this.isStarted = true;
       startGame = this.isStarted;
-      console.log(startGame);
       this.$emit('gameIsStarted', startGame);
     }
   }

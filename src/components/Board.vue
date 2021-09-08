@@ -6,6 +6,7 @@
         :key="item.id"
         :class="['board__list-item', 'board__list-item_' + item.color]"
         :sound="item.sound"
+        :mutableIsStarted="mutableIsStarted"
       />
     </ul>
   </div>
@@ -20,6 +21,7 @@ const sound3 = new Audio(require('../assets/sounds/3.mp3'));
 const sound4 = new Audio(require('../assets/sounds/4.mp3'));
 
 export default {
+  props: ['mutableIsStarted'],
   components: {
     BoardItem,
   },
@@ -31,6 +33,8 @@ export default {
         { color: 'yellow', sound: sound3 },
         { color: 'green', sound: sound4 },
       ],
+      sequence: [],
+      copy: [],
     };
   },
   mounted() {
