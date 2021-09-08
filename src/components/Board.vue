@@ -5,7 +5,7 @@
         v-for="item in sounds"
         :key="item.id"
         :class="['board__list-item', 'board__list-item_' + item.color]"
-        :sounds="sounds"
+        :sound="item.sound"
       />
     </ul>
   </div>
@@ -33,11 +33,14 @@ export default {
       ],
     };
   },
-  // mounted() {
-  //   this.$nextTick(function() {
-  //     this.$emit('sounds', this.sounds)
-  //   })
-  // },
+  mounted() {
+    this.$nextTick(function() {
+      this.sounds.map((item) => {
+        this.$emit('sound', item.sound)
+      })
+      this.$emit('sounds', this.sounds);
+    })
+  },
 };
 </script>
 
