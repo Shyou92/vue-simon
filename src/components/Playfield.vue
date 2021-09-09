@@ -5,7 +5,9 @@
       <Board @sounds="sounds" 
         :mutableIsStarted="mutableIsStarted"
       />
-      <DashBoard @gameIsStarted="audio"
+      <DashBoard
+        @gameIsStarted="audio"
+        :newRound="newRound"      
       />
     </div>
   </div>
@@ -26,6 +28,7 @@ export default {
     return {
       sounds: [],
       mutableIsStarted: this.isStarted || false,
+      sequence: [],
     }
   },
   components: {
@@ -37,11 +40,30 @@ export default {
       this.mutableIsStarted = isStarted;
     },
     randomizeNumbers() {
-      return Math.floor((Math.random() * sounds.length) + 1);
-    }
+      return Math.floor((Math.random() * 4) + 1);
+    },
+    animate() {
+      let animateSequence = this.sequence;
+      let i = 0;
+          const interval = setInterval(
+              function() {
+                console.log(animateSequence[i]);
+                i++;
+
+                if (i >= animateSequence.length) {
+                  clearInterval(interval)
+                }
+              },600)
+    },
+    newRound() {
+      let animateSequence = this.sequence;
+      animateSequence.push(this.randomizeNumbers());
+      this.animate(animateSequence)
+    },
   }
 };
 </script>
+
 <style scoped>
 .playfield {
   display: flex;

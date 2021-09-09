@@ -33,9 +33,11 @@ export default {
         { color: 'yellow', sound: sound3 },
         { color: 'green', sound: sound4 },
       ],
-      sequence: [],
-      copy: [],
+
     };
+  },
+  methods: {
+
   },
   mounted() {
     this.$nextTick(function() {
