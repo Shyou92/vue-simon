@@ -60,36 +60,24 @@ export default {
       return(this.soundsArray[Math.floor((Math.random() * this.soundsArray.length))]);
     },
     randomSounds() {
-      const random = this.randomizeNumbers()
-      this.animateSequence.push(random);
-    },
-    newRound() {
-    },
-    playSound(sound) {
-      sound.play()
+      return this.randomizeNumbers();    
     },
     animate() {
-      this.randomSounds()
+      if (this.animateSequence.length === 0) {
+        this.animateSequence.push(this.randomSounds());
+      } 
+      this.start = 0;
       const finish = this.animateSequence.length;
-
-      // this.playSound(animateSequence.sound)
+      this.animateSequence.push(this.randomSounds())
       let interval = setInterval(() => {
-        // console.log(animateSequence[this.start]);
-        
-        if(this.start === finish) {
-			
-          console.log('that is all');
+        if (this.start === finish) {
           clearInterval(interval)
-          
         } else {
-          this.randomSounds()
           this.animateSequence[this.start].sound.play();
-          // console.log(animateSequence);
           this.start++
-          // console.log(this.start);
         }
       }, 2000)
-    },
+    }
   }
 };
 </script>
