@@ -2,7 +2,7 @@
   <div class="border">
     <ul class="board__list">
       <BoardItem
-        v-for="item in sounds"
+        v-for="item in soundsArray"
         :key="item.id"
         :class="['board__list-item', 'board__list-item_' + item.color]"
         :sound="item.sound"
@@ -15,25 +15,13 @@
 <script>
 import BoardItem from '@/components/BoardItem';
 
-const sound1 = new Audio(require('../assets/sounds/1.mp3'));
-const sound2 = new Audio(require('../assets/sounds/2.mp3'));
-const sound3 = new Audio(require('../assets/sounds/3.mp3'));
-const sound4 = new Audio(require('../assets/sounds/4.mp3'));
-
 export default {
-  props: ['mutableIsStarted'],
+  props: ['soundsArray', 'mutableIsStarted'],
   components: {
     BoardItem,
   },
   data() {
     return {
-      sounds: [
-        { color: 'red', sound: sound1 },
-        { color: 'blue', sound: sound2 },
-        { color: 'yellow', sound: sound3 },
-        { color: 'green', sound: sound4 },
-      ],
-
     };
   },
   methods: {
@@ -41,10 +29,10 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      this.sounds.map((item) => {
+      this.soundsArray.map((item) => {
         this.$emit('sound', item.sound)
       })
-      this.$emit('sounds', this.sounds);
+      this.$emit('sounds', this.soundsArray);
     })
   },
 };

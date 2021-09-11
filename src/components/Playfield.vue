@@ -2,12 +2,14 @@
   <div class="playfield">
     <h2 class="playfield__header">Simon Says</h2>
     <div class="container">
-      <Board @sounds="sounds" 
+      <Board 
+        :soundsArray="soundsArray" 
         :mutableIsStarted="mutableIsStarted"
+        :sound='sound'
       />
       <DashBoard
         @gameIsStarted="audio"
-        :newRound="newRound"      
+        :animate="animate"      
       />
     </div>
   </div>
@@ -17,18 +19,33 @@
 import Board from './Board.vue';
 import DashBoard from './DashBoard.vue';
 
+const sound1 = new Audio(require('../assets/sounds/1.mp3'));
+const sound2 = new Audio(require('../assets/sounds/2.mp3'));
+const sound3 = new Audio(require('../assets/sounds/3.mp3'));
+const sound4 = new Audio(require('../assets/sounds/4.mp3'));
+
 export default {
   props: {
     isStarted: {
       default: false,
       type: Boolean,
+    },
+    sound: {
+      default: ''
     }
   },
   data() {
     return {
-      sounds: [],
+      soundsArray: [
+        { color: 'red', sound: sound1, index: 1 },
+        { color: 'blue', sound: sound2, index: 2 },
+        { color: 'yellow', sound: sound3, index: 3 },
+        { color: 'green', sound: sound4, index: 4 },
+      ],
       mutableIsStarted: this.isStarted || false,
       sequence: [],
+      animateSequence: [],
+      start: 0,
     }
   },
   components: {
@@ -40,25 +57,38 @@ export default {
       this.mutableIsStarted = isStarted;
     },
     randomizeNumbers() {
-      return Math.floor((Math.random() * 4) + 1);
+      return(this.soundsArray[Math.floor((Math.random() * this.soundsArray.length))]);
     },
-    animate() {
-      let animateSequence = this.sequence;
-      let i = 0;
-          const interval = setInterval(
-              function() {
-                console.log(animateSequence[i]);
-                i++;
-
-                if (i >= animateSequence.length) {
-                  clearInterval(interval)
-                }
-              },600)
+    randomSounds() {
+      const random = this.randomizeNumbers()
+      this.animateSequence.push(random);
     },
     newRound() {
-      let animateSequence = this.sequence;
-      animateSequence.push(this.randomizeNumbers());
-      this.animate(animateSequence)
+    },
+    playSound(sound) {
+      sound.play()
+    },
+    animate() {
+      this.randomSounds()
+      const finish = this.animateSequence.length;
+
+      // this.playSound(animateSequence.sound)
+      let interval = setInterval(() => {
+        // console.log(animateSequence[this.start]);
+        
+        if(this.start === finish) {
+			
+          console.log('that is all');
+          clearInterval(interval)
+          
+        } else {
+          this.randomSounds()
+          this.animateSequence[this.start].sound.play();
+          // console.log(animateSequence);
+          this.start++
+          // console.log(this.start);
+        }
+      }, 2000)
     },
   }
 };

@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  props: ['roundSequence', 'newRound'],
+  props: ['roundSequence', 'animate'],
   data() {
     return {
       isStarted: false,
@@ -39,7 +39,7 @@ export default {
       this.isStarted = true;
       startGame = this.isStarted;
       this.$emit('gameIsStarted', startGame);
-      this.newRound()
+      this.animate()
     }
   }
 }
